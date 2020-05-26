@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import web.model.User;
 import web.service.UserService;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api")
 public class RESTUserController {
     private final UserService userService;
 
@@ -19,8 +21,8 @@ public class RESTUserController {
 //    public ResponseEntity<?> getAllUsers() {
 //    }
 
-    @GetMapping
-    public ResponseEntity<?> getUsers() {
+    @GetMapping("/admin/users")
+    public ResponseEntity<List<User>> getUsers() {
         return new ResponseEntity<>(userService.listAllUsers(), HttpStatus.OK);
 
     }
