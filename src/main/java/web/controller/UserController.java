@@ -15,7 +15,7 @@ public class UserController {
 
     @GetMapping("/user")
     public String userPage() {
-        return "user";
+       return "user";
     }
 
 //    private final Logger logger = LoggerFactory.getLogger(this.getClass());

@@ -1,4 +1,3 @@
-
 $(document).ready(getUserList());
 function getUserList() {
     console.log('working');
@@ -43,7 +42,8 @@ function getUserList() {
                                 class="btn btn-danger btn-sm"
                                 data-toggle="modal"
                                 data-target= "#deleteModal"
-                                data-id="${id}">
+                                data-id="${id}"
+                                data-name="${username}">
                                 DELETE
                             </button>
                             </td>`;
@@ -53,46 +53,32 @@ function getUserList() {
                 tbody += `</tr>`;
 
             };
-            $('#tbody').append(tbody);
+            $('#tbody').html(tbody);
+
         },
     })
     console.log('end working');
 }
 
+$(document).ready(function () {
+    console.log('working');
+    $('.table .editButton').on ('click', function (event) {
+        event.preventDefault();
 
+        const href = $(this).attr('href');
+        $.get(href, function (user, status) {
+            $('#editID').val(user.id);
+            $('#editName').val(user.username);
+            $('#editPassword').val(user.password);
+            $('#editRoles').val(user.roles);
+        })
+        $('#editModal').modal();
+    });
+    $('.table .deleteButton').on('click', function (event) {
+        event.preventDefault();
+        const href = $(this).attr('href');
+        $('#deleteModal #deletedId').attr('href', href);
+        $('#deleteModal').modal();
+    })
 
-// jQuery(function ($) {
-//     console.log('working');
-//     $.ajax({
-//
-//         url: '/api/admin',
-//         type: 'GET',
-//         contentType: "application/json;charset=UTF-8",
-//         dataType: 'json',
-//         success: function (data) {
-//             data.forEach(function (element) {
-//                 addTableRow(element);
-//             })
-//         },
-//     });
-//
-//
-// });
-//
-// function addTableRow(element) {
-//     let id = element.id;
-//     let name = element.username;
-//     let role = [];
-//     for (let j = 0; j < element.roles.length; j++) {
-//         role.push(element.roles[j].role);
-//     }
-//     let tablebody = `<tr id="${id}">
-//                         <td id="userId-${id}">${id}</td>
-//                         <td id="userRoles-${id}">${role}</td>
-//                         <td id="username-${id}">${name}</td>
-//                         <td><button type="button" class="btn btn-info edit-user" data-toggle="modal" data-target="#modalWindow" id="editButton-${id}">Edit</button></td>
-//                         <td><button type="button" class="btn btn-info delete-row" id="deleteButton-${id}">Delete</button></td>
-//                   </tr>`;
-//     console.log(name + ': ' + role);
-//     $('#tbody').append(tablebody);
-// }
+})
