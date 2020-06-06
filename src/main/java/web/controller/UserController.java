@@ -1,21 +1,37 @@
 package web.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import web.model.Role;
+import web.model.User;
+import web.service.UserService;
 
 @Controller
-@RequestMapping("/admin")
 public class UserController {
+    @Autowired
+    private UserService userService;
 
-    @GetMapping("/users")
-    public String adminPage() {
+    @GetMapping("/admin/users")
+    public String adminPage(Model model) {
+        User userAuth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("userauth", userAuth);
         return "users";
     }
 
     @GetMapping("/user")
-    public String userPage() {
-       return "user";
+    public String userPage(Model model) {
+        User userAuth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByName(userAuth.getUsername());
+        model.addAttribute("user", user);
+        Role roleAdmin = new Role();
+        roleAdmin = userService.getRoleByName("admin");
+        model.addAttribute("roleAdmin", roleAdmin);
+        model.addAttribute("userauth", userAuth);
+        return "user";
     }
 
 //    private final Logger logger = LoggerFactory.getLogger(this.getClass());

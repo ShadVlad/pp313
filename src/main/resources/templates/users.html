@@ -1,24 +1,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3" lang="en">
+
 <head>
+
     <meta charset="utf-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<!--    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 
-   <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>-->
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-            crossorigin="anonymous"></script>
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <title>Admin panel</title>
 </head>
@@ -27,12 +19,12 @@
 
 <div class="bg-dark d-flex flex-row align-content-center">
     <div class="bg-dark pt-2 pl-3">
-<!--        <p class="text-light d-inline"><b th:text="${userauth.username}"></b> with roles:-->
-<!--        <p th:each="role : ${userauth.roles}" th:text="${role.role}" class="text-light d-inline pr-1"></p></p>-->
+        <p class="text-light d-inline"><b th:text="${userauth.username}"></b> with roles:
+        <p th:each="role : ${userauth.roles}" th:text="${role.role}" class="text-light d-inline pr-1"></p></p>
     </div>
     <div class="bg-dark pt-2 pr-3 ml-auto">
         <p>
-            <a th:href="@{/logout}" class="text-secondary">Logout</a>
+            <a th:href="@{/logout}" class="text-light d-inline">Logout</a>
         </p>
     </div>
 </div>
@@ -41,7 +33,7 @@
 
     <div class="col-2 pt-3 pr-0 pl-0">
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a href="/admin" class="nav-link active" id="v-pills-admin-tab" role="tab" aria-controls="v-pills-admin"
+            <a href="/admin/users" class="nav-link active" id="v-pills-admin-tab" role="tab" aria-controls="v-pills-admin"
                aria-selected="true">Admin</a>
             <a href="/user" class="nav-link" id="v-pills-user-tab" role="tab" aria-controls="v-pills-user"
                aria-selected="true">User</a>
@@ -83,34 +75,167 @@
                     </table>
                 </div>
             </div>
+            <div class="tab-pane fade" id='addUser' role="tabpanel" aria-labelledby="addUser-tab">
+                <div class="border bg-white">
+                    <div class="border-bottom pl-3 p-2 bg-light font-weight-bolder">Add new user</div>
+                    <div class="border rounded-top py-2" id = "message">
 
+                    </div>
+                    <div class="parent" style="border: 1px solid lightgrey" align="center">
+                        <div class="col-4"></div>
+                        <div class="col-4">
+                            <form id="addUserForm" class="form-signin pt-md-5 mx-auto">
+                                <div class="form-group">
+                                    <p class="text-center font-weight-bolder p-0 mb-1 mt-1">User name</p>
+                                    <input
+                                            type="text"
+                                            class="form-control bg-warning"
+                                            name="userName"
+                                            id="userName"
+                                            autofocus="autofocus"
+                                            placeholder="User name">
+                                </div>
+                                <div class="form-group">
+                                    <p class="text-center font-weight-bolder p-0 mb-1 mt-1">Password</p>
+                                    <input
+                                            type="password"
+                                            class="form-control bg-warning"
+                                            name="password"
+                                            id="password"
+                                            placeholder="Password"
+                                    >
+                                    <div class="form-group">
+                                        <p class="text-center font-weight-bolder p-0 mb-1 mt-1">Role</p>
+                                        <select  name="checkedRoles"  multiple class="form-control" id="checkedRoles" style="height: 60px" >
+
+                                        </select>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-success">Add new user</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
 
         </div>
+
     </div>
 </div>
-<div class="modal" tabindex="-1" role="dialog" id="deleteModal">
-    <div class="modal-dialog" role="document">
+
+
+<div class="modal" tabindex="-1" id='deleteModal'>
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Confirm delete</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title">Delete user</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Are yuo sure you want to delete the selected record?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <a href="" type="button" class="btn btn-danger" id="deletedId">Delete</a>
+                <label></label>
+                <div class="modal-footer">
+                    <form>
+                        <button type="button" class="btn btn-secondary btn-sm"
+                                data-dismiss="modal">Close
+                        </button>
+                        <button type="submit" class="btn btn-danger btn-sm" id="id">
+                            Delete
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<br/><br/>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script type="text/javascript" src="/js/main.js" th:src="@{/js/main.js}"></script>
 
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit user</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form id="edit" class="form-signin pt-md-1">
+                    <div class="row">
+                        <div class="mx-auto">
+                            <label class="text-center font-weight-bolder col-md-12 control-label add-form"
+                                   for="id">ID</label>
+                            <div class="col-md-13">
+                                <input id="idEdit" path="id" name="id"
+                                       type="text" placeholder="id"
+                                       class="form-control" value=""
+                                       readonly/>
+                            </div>
+                            <div class="form-group add-form">
+                                <label class="text-center font-weight-bolder col-md-12 control-label add-form"
+                                       for="username">User name</label>
+                                <div class="col-md-13">
+                                    <input id="usernameEdit" path="username"
+                                           name="userName"
+                                           type="text"
+                                           class="form-control"
+                                           value=""/>
+                                </div>
+                            </div>
+                            <div class="form-group add-form">
+                                <label class="text-center font-weight-bolder col-md-12 control-label"
+                                       for="password">Password
+                                </label>
+                                <div class="col-md-13 add-form">
+                                    <input id="passwordEdit" path="password" name="password"
+                                           type="password" placeholder="password"
+                                           class="form-control"
+                                           value=""/>
+                                </div>
+                            </div>
+                            <div class="form-group add-form">
+                                <label for="checkedRolesEdit"
+                                       class="text-center font-weight-bolder col-md-12 add-form">Role</label>
+                                <select name="checkedRolesEdit" multiple
+                                        class="form-control"
+                                        style="height: 80px" id="checkedRolesEdit">
+<!--                                    <option th:each="role : ${allRoles}"-->
+<!--                                            th:value="${role}"-->
+<!--                                            th:text="${role}"-->
+<!--                                            th:selected="${user.roles.contains(role)}"/>-->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm"
+                                data-dismiss="modal">Close
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-sm">Edit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br/><br/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="/js/main.js" th:src="@{/js/main.js}"></script>
 </body>
 
 </html>
