@@ -19,10 +19,6 @@ public class RESTUserController {
         this.userService = userService;
     }
 
-//    @GetMapping("/admin")
-//    public ResponseEntity<?> getAllUsers() {
-//    }
-
     @GetMapping("/admin/users")
     public ResponseEntity<List<User>> getUsers() {
         return new ResponseEntity<>(userService.listAllUsers(), HttpStatus.OK);
