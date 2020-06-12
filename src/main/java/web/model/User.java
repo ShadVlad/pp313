@@ -1,16 +1,12 @@
 package web.model;
 
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
 @Entity(name = "User")
 @Table(name = "users_spring")
-public class User implements UserDetails {
+public class User {
 
     @Id
     @Column(name = "id")
@@ -39,7 +35,6 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    @Override
     public String getUsername() {
         return userName;
     }
@@ -48,7 +43,6 @@ public class User implements UserDetails {
         this.userName = userName;
     }
 
-    @Override
     public String getPassword() {
         return password;
     }
@@ -65,28 +59,4 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

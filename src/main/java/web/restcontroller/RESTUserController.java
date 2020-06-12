@@ -1,4 +1,4 @@
-package web.controller;
+package web.restcontroller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,16 +19,17 @@ public class RESTUserController {
         this.userService = userService;
     }
 
-//    @GetMapping("/admin")
-//    public ResponseEntity<?> getAllUsers() {
-//    }
-
     @GetMapping("/admin/users")
     public ResponseEntity<List<User>> getUsers() {
         return new ResponseEntity<>(userService.listAllUsers(), HttpStatus.OK);
 
     }
 
+    @GetMapping("/user/{id}")
+    public User getUserById(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        return user;
+    }
     @PostMapping(value = "/admin/add")
     public ResponseEntity<?> createUser(@RequestBody User user) {
         User userDS = new User();
