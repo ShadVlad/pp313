@@ -19,9 +19,9 @@ public class LoginController {
                                  ModelAndView mav,
                                  HttpServletResponse res) throws IOException, ServletException {
         if (auth != null) {
-            if (auth.getAuthorities().toString().equals("[admin]")) {
+            if (auth.getAuthorities().toString().contains("admin")) {
                 res.sendRedirect("/admin/users");
-            } else if (auth.getAuthorities().toString().equals("[user]")) {
+            } else if (auth.getAuthorities().toString().contains("user")) {
                 res.sendRedirect("/user");
             }
         }
