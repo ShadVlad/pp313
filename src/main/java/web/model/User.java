@@ -4,28 +4,14 @@ package web.model;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
-@Entity(name = "User")
-@Table(name = "users_spring")
 public class User implements UserDetails {
-
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "username")
     private String userName;
-
-    @Column(name = "password")
     private String password;
-
-    @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
-
     //private String stringRoles;
 
     public User() {
