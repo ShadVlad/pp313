@@ -12,8 +12,6 @@ import web.service.UserService;
 
 @Controller
 public class UserController {
-    @Autowired
-    private UserService userService;
 
     @GetMapping("/admin/users")
     public String adminPage(Model model) {
@@ -24,13 +22,13 @@ public class UserController {
 
     @GetMapping("/user")
     public String userPage(Model model) {
-        User userAuth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.getUserByName(userAuth.getUsername());
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //User user = userService.getUserByName(userAuth.getUsername());
         model.addAttribute("user", user);
         Role roleAdmin = new Role();
-        roleAdmin = userService.getRoleByName("admin");
+        roleAdmin = new Role(1L,"admin");
         model.addAttribute("roleAdmin", roleAdmin);
-        model.addAttribute("userauth", userAuth);
+        model.addAttribute("userauth", user);
         return "user";
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class User implements UserDetails {
     private Long id;
-    private String userName;
+    private String username;
     private String password;
     private List<Role> roles;
     //private String stringRoles;
@@ -27,11 +27,11 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return username;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.username = userName;
     }
 
     @Override

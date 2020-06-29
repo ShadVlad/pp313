@@ -166,7 +166,7 @@ function getUserList() {
             for (let i = 0; i < allUsers.length; i++) {
                 let id = allUsers[i].id;
                 let username = allUsers[i].username;
-                //console.log(username);
+                console.log(username);
                 let password = allUsers[i].password;
                 let role = [];
 

@@ -20,15 +20,15 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    //@Qualifier("userDetailsServiceImp")
-//    @Autowired
-//    private UserDetailsService userDetailsService;
+    @Qualifier("userDetailsServiceImp")
+    @Autowired
+    private UserDetailsService userDetailsService;
 
 
-//    @Override
-//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService);
-//    }
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
+    }
     @Bean
     public AuthenticationSuccessHandler myAuthenticationSuccessHandler() {
         return new AuthenticationSuccessHandlerImp();
