@@ -30,6 +30,11 @@ public class RESTUserController {
         User user = userService.getUserById(id);
         return user;
     }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<?> loadUserByUsername(@PathVariable String username) {
+        return new ResponseEntity<>(userService.getUserByName(username), HttpStatus.OK);
+    }
     @PostMapping(value = "/admin/add")
     public ResponseEntity<?> createUser(@RequestBody User user) {
         User userDS = new User();
@@ -78,5 +83,14 @@ public class RESTUserController {
     @GetMapping("/roles")
     public ResponseEntity<List<Role>> getAllRoles() {
         return new ResponseEntity<>(userService.rolesList(), HttpStatus.OK);
+    }
+
+    @GetMapping("/roles/{rolename}")
+    public ResponseEntity<Role> getRoleByName(@PathVariable String rolename) {
+        Role role = userService.getRoleByName(rolename);
+        if (role == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(role, HttpStatus.OK);
     }
 }
