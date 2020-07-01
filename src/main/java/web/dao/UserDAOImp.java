@@ -49,7 +49,7 @@ public class UserDAOImp implements UserDAO {
 
     @Override
     public User getUserByUserName(String userName) {
-        Query query = (Query) entityManager.createQuery("SELECT user FROM User user WHERE user.userName=:paramUserName");
+        Query query = (Query) entityManager.createQuery("SELECT user FROM User user WHERE user.username=:paramUserName");
         query.setParameter("paramUserName", userName);
         return (User) query.uniqueResult();
     }
