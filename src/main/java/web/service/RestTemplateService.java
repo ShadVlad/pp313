@@ -58,25 +58,17 @@ public class RestTemplateService {
         return user;
     }
 
+//    public User getUserAfterLogin(String username) {
+//        final String uri = "http://localhost:8000/user/{username}";
+//        RestTemplate restTemplate = new RestTemplate();
+//        User user = restTemplate.getForObject(uri, User.class, username);
+//        return user;
+//    }
 
-    public User getUserAfterLogin(String username) {
-        final String uri = "http://localhost:8000/user/{username}";
-        RestTemplate restTemplate = new RestTemplate();
-        User user = restTemplate.getForObject(uri, User.class, username);
-        return user;
-    }
-
-
-    public User createUser(User user) {
+    public void createUser(User user) {
         RestTemplate restTemplate = new RestTemplate();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Optional<User> userOptional =
-                Optional.ofNullable(restTemplate.postForObject(SERVER_URL + "add",
-                        user, User.class));
-        if (!userOptional.isPresent()) {
-            throw new UsernameNotFoundException("Can`t create User");
-        }
-        return userOptional.get();
+        restTemplate.postForObject(SERVER_URL + "add", user, User.class);
     }
 
     public void updateUser(User user) {
@@ -90,25 +82,18 @@ public class RestTemplateService {
                         HttpMethod.PUT,
                         new HttpEntity<>(user),
                         User.class);
-//       Optional<User> userOptional = Optional.ofNullable(response.getBody());
-//        if (!userOptional.isPresent()) {
-//            throw new UsernameNotFoundException("Can`t update User");
-//        }
-//        return userOptional.get();
     }
+
     public Role getRoleByName(String role) {
         RestTemplate restTemplate = new RestTemplate();
         Optional<Role> roleOptional =
                 Optional.ofNullable(restTemplate.getForObject("http://localhost:8000/api/roles/" +
                         role, Role.class));
-
         return roleOptional.get();
     }
     public List<Role> getAllRoles(){
         String uri = "http://localhost:8000/api/roles";
         RestTemplate restTemplate = new RestTemplate();
-//        JsonObject jsonObject = restTemplate.getForObject(uri, JsonObject.class);
-//        return jsonObject.getAllRoles();
         ResponseEntity<List<Role>> response =
                 restTemplate.exchange(uri,
                         HttpMethod.GET,
