@@ -11,7 +11,7 @@ public class RestTemplateConfig {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
         return restTemplateBuilder
-                .basicAuthentication("admin", "user")
+                .basicAuthentication("admin", "admin")
                 .build();
     }
 }

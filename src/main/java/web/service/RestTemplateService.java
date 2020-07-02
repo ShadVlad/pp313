@@ -20,10 +20,16 @@ import java.util.Optional;
 public class RestTemplateService {
     private final String SERVER_URL = "http://localhost:8000/api/admin/";
     private RestTemplate restTemplate;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public void setRestTemplate(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
+    }
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void deleteUser(Long id) {
