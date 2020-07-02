@@ -1,5 +1,6 @@
 package web.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -18,20 +19,21 @@ import java.util.Optional;
 @Service
 public class RestTemplateService {
     private final String SERVER_URL = "http://localhost:8000/api/admin/";
-    private final PasswordEncoder passwordEncoder;
+    private RestTemplate restTemplate;
 
-    public RestTemplateService(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
+    @Autowired
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
     public void deleteUser(Long id) {
         //final String uri = "http://localhost:8000/api/admin/";
-        RestTemplate restTemplate = new RestTemplate();
+        //RestTemplate restTemplate = new RestTemplate();
         restTemplate.delete(SERVER_URL + "delete/" + id);;
     }
 
     public List<User> getUsersList() {
-        RestTemplate restTemplate = new RestTemplate();
+        //RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<List<User>> response =
                     restTemplate.exchange(SERVER_URL + "users",
                             HttpMethod.GET,
@@ -41,19 +43,16 @@ public class RestTemplateService {
         }
 
     public UserDetails getUserByName(String username) {
-        RestTemplate restTemplate = new RestTemplate();
-        Optional<UserDetails> userOptional =
-                Optional.ofNullable(restTemplate.getForObject("http://localhost:8000/api/" +
-                        username, User.class));
-        if (!userOptional.isPresent()) {
-            throw new UsernameNotFoundException("Can`t retrieve UserDetails from server");
-        }
-        return userOptional.get();
+        //RestTemplate restTemplate = new RestTemplate();
+        UserDetails userDetails =restTemplate.getForObject("http://localhost:8000/api/" +
+                        username, User.class);
+
+        return userDetails;
     }
 
     public User getUserById(Long id) {
         String uri = "http://localhost:8000/api/user/" + id;
-        RestTemplate restTemplate = new RestTemplate();
+        //RestTemplate restTemplate = new RestTemplate();
         User user = restTemplate.getForObject(uri, User.class, id);
         return user;
     }
@@ -66,14 +65,14 @@ public class RestTemplateService {
 //    }
 
     public void createUser(User user) {
-        RestTemplate restTemplate = new RestTemplate();
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        //RestTemplate restTemplate = new RestTemplate();
+        //user.setPassword(passwordEncoder.encode(user.getPassword()));
         restTemplate.postForObject(SERVER_URL + "add", user, User.class);
     }
 
     public void updateUser(User user) {
         if (!user.getPassword().isEmpty()) {
-            String hashPassword = passwordEncoder.encode(user.getPassword());
+            String hashPassword = user.getPassword();
             user.setPassword(hashPassword);
         }
         RestTemplate restTemplate = new RestTemplate();
@@ -85,7 +84,7 @@ public class RestTemplateService {
     }
 
     public Role getRoleByName(String role) {
-        RestTemplate restTemplate = new RestTemplate();
+        //RestTemplate restTemplate = new RestTemplate();
         Optional<Role> roleOptional =
                 Optional.ofNullable(restTemplate.getForObject("http://localhost:8000/api/roles/" +
                         role, Role.class));
@@ -93,7 +92,7 @@ public class RestTemplateService {
     }
     public List<Role> getAllRoles(){
         String uri = "http://localhost:8000/api/roles";
-        RestTemplate restTemplate = new RestTemplate();
+        //RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<List<Role>> response =
                 restTemplate.exchange(uri,
                         HttpMethod.GET,
